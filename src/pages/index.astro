@@ -518,6 +518,10 @@ import Layout from '../layouts/Layout.astro';
     const viewportHeight = document.documentElement.clientHeight;
     const viewportWidth = document.documentElement.clientWidth;
 
+    // Disable yes button for 100ms to prevent accidental press
+    yesBtn.disabled = true;
+    setTimeout(function(){yesBtn.disabled = false;},300);
+
 
     // Random integer within range
     function getRandomInt(min, max) {
