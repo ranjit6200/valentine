@@ -215,6 +215,8 @@ import Layout from '../layouts/Layout.astro';
     color: #888;
     border: 2px solid #ddd;
     min-width: 120px;
+    top: 0;
+    left: 0;
   }
 
   .btn-no:hover {
@@ -456,7 +458,7 @@ import Layout from '../layouts/Layout.astro';
   });
 
   // Function to move the No button
-  function moveNoButton(e: Event) {
+  function moveaNoButton(e: Event) {
     noPresses++;
 
     // Disable yes button for 100ms to prevent accidental press
@@ -488,8 +490,54 @@ import Layout from '../layouts/Layout.astro';
     );
     
     noBtn.style.position = 'fixed';
-    noBtn.style.left = `${randomX}px`;
-    noBtn.style.top = `${randomY}px`;
+    noBtn.style.transform = 'translate(${randomX}px, ${randomY}px)';
+    noBtn.style.transition = 'all 0.3s ease';
+
+    // Change text based on presses
+    if (noPresses === 1) {
+      noBtn.textContent = 'Are you sure?';
+    } else if (noPresses === 2) {
+      noBtn.textContent = 'Really? 🥺';
+    } else if (noPresses === 3) {
+      noBtn.textContent = 'Think again...';
+    } else if (noPresses == 4) {
+      noBtn.textContent = 'Hmm...💔';
+    } else if (noPresses == 5) {
+      noBtn.textContent = 'Wrong answer';
+    } else if (noPresses >= 6) {
+      noBtn.textContent = 'Nope';
+    }
+  }
+
+  // Function to move the No button
+  function moveNoButton(e: Event) {
+    e.preventDefault();
+    e.stopPropagation();
+    noPresses++;
+
+    const viewportHeight = document.documentElement.clientHeight;
+    const viewportWidth = document.documentElement.clientWidth;
+
+
+    // Random integer within range
+    function getRandomInt(min, max) {
+      return Math.floor(Math.random() * (max-min +1)) + min;
+    }
+
+    //Calculate random coordinates
+    const randY = getRandomInt(0, viewportHeight - 50)
+    const randX = getRandomInt(0, viewportWidth - 50)
+
+    //Apply using transform
+    noBtn.style.transform = 'translate(${randX}px, ${randY}px)';
+    noBtn.style.transform = `scale(0.7)`;
+
+
+    // Make Yes button bigger
+    const currentScale = 1 + (noPresses * 0.2);
+    yesBtn.style.transform = `scale(${currentScale})`;
+    
+    noBtn.style.position = 'fixed';
     noBtn.style.transition = 'all 0.3s ease';
 
     // Change text based on presses
@@ -509,7 +557,7 @@ import Layout from '../layouts/Layout.astro';
   }
 
   // No button - gets harder to click (works on both click and touch)
-  noBtn.addEventListener('pointerdown', moveNoButton);
+  noBtn.addEventListener('click', moveNoButton);
   noBtn.addEventListener('pointerdown', moveNoButton, { passive: true });
 
   // Make No button move away when hovering/touching near it (on mobile)
