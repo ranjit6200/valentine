@@ -561,7 +561,7 @@ import Layout from '../layouts/Layout.astro';
   }
 
   // No button - gets harder to click (works on both click and touch)
-  //noBtn.addEventListener('click', moveNoButton);
+  noBtn.addEventListener('click', moveNoButton);
   noBtn.addEventListener('touchstart', moveNoButton, { passive: true });
 
   // Make No button move away when hovering/touching near it (on mobile)
