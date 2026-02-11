@@ -533,7 +533,9 @@ import Layout from '../layouts/Layout.astro';
     const randX = getRandomInt(0, viewportWidth - 50)
 
     //Apply using transform
-    noBtn.style.transform = 'translate(${randX}px, ${randY}px)';
+    setTimeout(() => {
+         noBtn.style.transform = 'translate(${randX}px, ${randY}px)';
+      }, 300)
     noBtn.style.transform = `scale(0.7)`;
 
 
