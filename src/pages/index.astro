@@ -1,0 +1,691 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
+// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+---
+
+<Layout>
+  <main>
+    <!-- Floating hearts background -->
+    <div class="hearts-container" aria-hidden="true"></div>
+    
+    <div class="content">
+      <div class="envelope">
+        <div class="envelope-flap"></div>
+      </div>
+      
+      <h1 class="question">Will you be my valentine?</h1>
+      
+      <div class="buttons">
+        <button id="yesBtn" class="btn btn-yes">Yes! 💕</button>
+        <button id="noBtn" class="btn btn-no">No</button>
+      </div>
+      
+      <div id="celebration" class="celebration hidden">
+        <div class="celebration-content">
+          <h2>Yay! 🎉</h2>
+          <p>You've made me the right choice! 💖</p>
+          <div class="photo-collage">
+            <img src="/pics/real/1.jpg" alt="Memory 1">
+            <img src="/pics/real/2.jpg" alt="Memory 2">
+            <img src="/pics/real/3.jpg" alt="Memory 3">
+            <img src="/pics/real/4.jpg" alt="Memory 4">
+          </div>
+		  <div class="buttons">
+		    <button id="toonify" class="btn btn-yes">Toonify!!</button>
+		  </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  main {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Floating hearts background */
+  .hearts-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .hearts-container::before,
+  .hearts-container::after {
+    content: '💕';
+    position: absolute;
+    font-size: 2rem;
+    opacity: 0.15;
+    animation: float 15s infinite;
+  }
+
+  .hearts-container::before {
+    left: 10%;
+    top: -50px;
+    animation-delay: 0s;
+  }
+
+  .hearts-container::after {
+    left: 80%;
+    top: -50px;
+    font-size: 3rem;
+    animation-delay: 7s;
+  }
+
+  @keyframes float {
+    0% {
+      transform: translateY(0) rotate(0deg);
+      opacity: 0;
+    }
+    10% {
+      opacity: 0.15;
+    }
+    90% {
+      opacity: 0.15;
+    }
+    100% {
+      transform: translateY(100vh) rotate(360deg);
+      opacity: 0;
+    }
+  }
+
+  /* Main content */
+  .content {
+    text-align: center;
+    z-index: 10;
+    padding: 2rem;
+    max-width: 600px;
+  }
+
+  /* Envelope decoration */
+  .envelope {
+    width: 100px;
+    height: 70px;
+    background: white;
+    margin: 0 auto 2rem;
+    position: relative;
+    border-radius: 4px;
+    box-shadow: 0 10px 30px rgba(255, 107, 157, 0.2);
+    animation: bounce 2s ease-in-out infinite;
+  }
+
+  .envelope-flap {
+    width: 0;
+    height: 0;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-bottom: 40px solid var(--rose);
+    position: absolute;
+    top: -40px;
+    left: 0;
+    border-radius: 4px 4px 0 0;
+  }
+
+  @keyframes bounce {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  /* Question */
+  .question {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    color: var(--rose);
+    margin-bottom: 3rem;
+    text-shadow: 2px 2px 4px rgba(255, 107, 157, 0.2);
+    animation: fadeInScale 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  @keyframes fadeInScale {
+    from {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  /* Buttons */
+  .buttons {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    animation: slideUp 0.8s ease-out 0.3s backwards;
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+  }
+
+  .btn {
+    padding: 1.2rem 3rem;
+    font-size: 1.5rem;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 600;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    position: relative;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .btn-yes {
+    background: linear-gradient(135deg, var(--rose), var(--peach));
+    color: white;
+  }
+
+  .btn-yes:hover,
+  .btn-yes:active {
+    transform: scale(1.1);
+    box-shadow: 0 15px 35px rgba(255, 107, 157, 0.4);
+  }
+
+  .btn-yes:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: scale(1);
+  }
+
+  .btn-no {
+    background: white;
+    color: #888;
+    border: 2px solid #ddd;
+    min-width: 120px;
+  }
+
+  .btn-no:hover {
+    background: #f5f5f5;
+  }
+
+  /* Celebration */
+  .celebration {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--rose), var(--lavender));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    opacity: 0;
+    transition: opacity 0.5s;
+  }
+
+  .celebration:not(.hidden) {
+    opacity: 1;
+  }
+
+  .celebration.hidden {
+    pointer-events: none;
+  }
+
+  .celebration-content {
+    text-align: center;
+    color: white;
+    animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .celebration h2 {
+    font-size: 5rem;
+    font-family: 'Dancing Script', cursive;
+    margin-bottom: 1rem;
+  }
+
+  .celebration p {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  /* Photo collage replacing the big heart */
+  .photo-collage {
+    display: grid;
+    grid-template-columns: repeat(2, 150px);
+    grid-template-rows: repeat(2, 150px);
+    gap: 10px;
+    margin: 0 auto 2rem;
+    transform: rotate(-5deg);
+	align-items: center;
+    justify-content: center;
+    perspective: 1000px;
+  }
+
+  .photo-collage img {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+    border-radius: 15px;
+    border: 2px solid white;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease;
+    position: relative;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+  }
+
+  /* Flip animation for toonify */
+  .photo-collage img.flipping {
+    animation: flip3d 0.8s ease-in-out forwards;
+  }
+
+  @keyframes flip3d {
+    0% {
+      transform: rotateY(0deg);
+    }
+    50% {
+      transform: rotateY(90deg);
+    }
+    100% {
+      transform: rotateY(180deg);
+    }
+  }
+
+  .photo-collage img.flipped {
+    transform: rotateY(180deg);
+  }
+
+  .photo-collage img.unflipping {
+    animation: unflip3d 0.8s ease-in-out forwards;
+  }
+
+  @keyframes unflip3d {
+    0% {
+      transform: rotateY(180deg);
+    }
+    50% {
+      transform: rotateY(270deg);
+    }
+    100% {
+      transform: rotateY(360deg);
+    }
+  }
+
+  .photo-collage img:nth-child(1) {
+    transform: rotate(3deg);
+    animation: photoFloat1 3s ease-in-out infinite;
+  }
+
+  .photo-collage img:nth-child(2) {
+    transform: rotate(-2deg);
+    animation: photoFloat2 3s ease-in-out infinite 0.5s;
+  }
+
+  .photo-collage img:nth-child(3) {
+    transform: rotate(-3deg);
+    animation: photoFloat3 3s ease-in-out infinite 1s;
+  }
+
+  .photo-collage img:nth-child(4) {
+    transform: rotate(2deg);
+    animation: photoFloat4 3s ease-in-out infinite 1.5s;
+  }
+
+  @keyframes photoFloat1 {
+    0%, 100% { transform: rotate(3deg) translateY(0); }
+    50% { transform: rotate(5deg) translateY(-8px); }
+  }
+
+  @keyframes photoFloat2 {
+    0%, 100% { transform: rotate(-2deg) translateY(0); }
+    50% { transform: rotate(-4deg) translateY(-6px); }
+  }
+
+  @keyframes photoFloat3 {
+    0%, 100% { transform: rotate(-3deg) translateY(0); }
+    50% { transform: rotate(-5deg) translateY(-7px); }
+  }
+
+  @keyframes photoFloat4 {
+    0%, 100% { transform: rotate(2deg) translateY(0); }
+    50% { transform: rotate(4deg) translateY(-9px); }
+  }
+
+  @keyframes popIn {
+    from {
+      transform: scale(0);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  @keyframes heartbeat {
+    0%, 100% {
+      transform: scale(1);
+    }
+    25% {
+      transform: scale(1.2);
+    }
+    50% {
+      transform: scale(1);
+    }
+  }
+
+  /* Confetti hearts */
+  @keyframes confetti {
+    0% {
+      transform: translateY(-100vh) rotate(0deg);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(100vh) rotate(720deg);
+      opacity: 0;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .question {
+      font-size: 2.5rem;
+    }
+
+    .btn {
+      padding: 1rem 2.5rem;
+      font-size: 1.3rem;
+      min-height: 60px; /* Larger touch target */
+    }
+
+    .btn-no {
+      min-width: 140px; /* Ensure button stays tappable */
+    }
+
+    .buttons {
+      gap: 1rem;
+    }
+
+    .celebration h2 {
+      font-size: 3rem;
+    }
+
+    .celebration p {
+      font-size: 1.5rem;
+    }
+
+    .photo-collage {
+      grid-template-columns: repeat(2, 120px);
+      grid-template-rows: repeat(2, 120px);
+      gap: 8px;
+    }
+
+    .photo-collage img {
+      width: 120px;
+      height: 120px;
+      border-radius: 12px;
+      border-width: 3px;
+    }
+  }
+</style>
+
+<script>
+  const yesBtn = document.getElementById('yesBtn') as HTMLButtonElement;
+  const noBtn = document.getElementById('noBtn') as HTMLButtonElement;
+  const celebration = document.getElementById('celebration') as HTMLDivElement;
+  
+  let noPresses = 0;
+
+  // Yes button - show celebration
+  yesBtn.addEventListener('click', () => {
+    celebration.classList.remove('hidden');
+    createConfetti();
+  });
+
+  // Function to move the No button
+  function moveNoButton(e: Event) {
+    e.preventDefault();
+    noPresses++;
+
+    // Make Yes button bigger
+    const currentScale = 1 + (noPresses * 0.2);
+    yesBtn.style.transform = `scale(${currentScale})`;
+
+    // Make No button smaller and move it
+    const noScale = Math.max(0.2, 1 - (noPresses * 0.15));
+    noBtn.style.transform = `scale(${noScale})`;
+    
+    // Get viewport dimensions and button size
+    const btnRect = noBtn.getBoundingClientRect();
+    const margin = 50; // Keep button away from edges
+    const maxX = window.innerWidth - btnRect.width - margin;
+    const maxY = window.innerHeight - btnRect.height - margin;
+    
+    // Random position with minimum distance from current position
+    let randomX, randomY;
+    do {
+      randomX = margin + Math.random() * (maxX - margin);
+      randomY = margin + Math.random() * (maxY - margin);
+    } while (
+      Math.abs(randomX - btnRect.left) < 100 || 
+      Math.abs(randomY - btnRect.top) < 100
+    );
+    
+    noBtn.style.position = 'fixed';
+    noBtn.style.left = `${randomX}px`;
+    noBtn.style.top = `${randomY}px`;
+    noBtn.style.transition = 'all 0.3s ease';
+
+    // Change text based on presses
+    if (noPresses === 1) {
+      noBtn.textContent = 'Are you sure?';
+    } else if (noPresses === 2) {
+      noBtn.textContent = 'Really? 🥺';
+    } else if (noPresses === 3) {
+      noBtn.textContent = 'Think again...';
+    } else if (noPresses == 4) {
+      noBtn.textContent = 'Hmm...💔';
+    } else if (noPresses == 5) {
+      noBtn.textContent = 'Wrong answer';
+    } else if (noPresses >= 6) {
+      noBtn.textContent = 'Nope';
+    }
+  }
+
+  // No button - gets harder to click (works on both click and touch)
+  noBtn.addEventListener('click', moveNoButton);
+  noBtn.addEventListener('touchstart', moveNoButton, { passive: false });
+
+  // Make No button move away when hovering/touching near it (on mobile)
+  let hoverTimeout: number;
+  
+  function checkProximity(x: number, y: number) {
+    if (noPresses === 0) return; // Only activate after first click
+    
+    const btnRect = noBtn.getBoundingClientRect();
+    const proximityThreshold = 80; // pixels
+    
+    const distanceX = Math.abs(x - (btnRect.left + btnRect.width / 2));
+    const distanceY = Math.abs(y - (btnRect.top + btnRect.height / 2));
+    
+    if (distanceX < proximityThreshold && distanceY < proximityThreshold) {
+      clearTimeout(hoverTimeout);
+      hoverTimeout = window.setTimeout(() => {
+        const margin = 50;
+        const maxX = window.innerWidth - btnRect.width - margin;
+        const maxY = window.innerHeight - btnRect.height - margin;
+        
+        const randomX = margin + Math.random() * (maxX - margin);
+        const randomY = margin + Math.random() * (maxY - margin);
+        
+        noBtn.style.left = `${randomX}px`;
+        noBtn.style.top = `${randomY}px`;
+      }, 100);
+    }
+  }
+
+  // Track touch movement
+  document.addEventListener('touchmove', (e) => {
+    if (e.touches.length > 0) {
+      checkProximity(e.touches[0].clientX, e.touches[0].clientY);
+    }
+  }, { passive: true });
+
+  // Track mouse movement on desktop
+  document.addEventListener('mousemove', (e) => {
+    checkProximity(e.clientX, e.clientY);
+  });
+
+  function createConfetti() {
+    const hearts = ['💕', '💖', '💗', '💓', '💝'];
+    const confettiCount = window.innerWidth < 600 ? 30 : 50; // Fewer on mobile
+    
+    for (let i = 0; i < confettiCount; i++) {
+      setTimeout(() => {
+        const heart = document.createElement('div');
+        heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+        heart.style.position = 'fixed';
+        heart.style.left = `${Math.random() * 100}%`;
+        heart.style.top = '-50px';
+        heart.style.fontSize = `${Math.random() * 30 + 20}px`;
+        heart.style.opacity = '1';
+        heart.style.pointerEvents = 'none';
+        heart.style.zIndex = '1000';
+        heart.style.animation = `confetti ${Math.random() * 3 + 2}s linear forwards`;
+        
+        document.body.appendChild(heart);
+        
+        setTimeout(() => {
+          heart.remove();
+        }, 5000);
+      }, i * 100);
+    }
+  }
+
+  // Toonify button functionality
+  const toonifyBtn = document.getElementById('toonify') as HTMLButtonElement;
+  let isToonified = false;
+  let isAnimating = false; // Prevent clicks during animation
+
+  function handleToonify(e: Event) {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    if (isAnimating) return; // Prevent multiple clicks during animation
+    
+    isAnimating = true;
+    toonifyBtn.disabled = true; // Disable button during animation
+    
+    const photos = document.querySelectorAll('.photo-collage img') as NodeListOf<HTMLImageElement>;
+    
+    if (!isToonified) {
+      // Flip to toonified
+      photos.forEach((photo, index) => {
+        photo.classList.add('flipping');
+        
+        // Change image source at the midpoint of the flip (when rotated 90deg)
+        setTimeout(() => {
+          photo.src = `/pics/stickers/${index + 1}.png`;
+        }, 400);
+        
+        // After animation, add flipped class and remove flipping
+        setTimeout(() => {
+          photo.classList.remove('flipping');
+          photo.classList.add('flipped');
+        }, 800);
+      });
+    } else {
+      // Flip back to original
+      photos.forEach((photo, index) => {
+        photo.classList.remove('flipped');
+        photo.classList.add('unflipping');
+        
+        // Change image source at the midpoint
+        setTimeout(() => {
+          photo.src = `/pics/real/${index + 1}.jpg`;
+        }, 400);
+        
+        // After animation, remove unflipping class
+        setTimeout(() => {
+          photo.classList.remove('unflipping');
+        }, 800);
+      });
+    }
+    
+    // Toggle state and button text
+    isToonified = !isToonified;
+    setTimeout(() => {
+      toonifyBtn.textContent = isToonified ? 'Back to Reality 📸' : 'Toonify!! 🎨';
+    }, 400);
+    
+    // Re-enable button after animation completes
+    setTimeout(() => {
+      isAnimating = false;
+      toonifyBtn.disabled = false;
+    }, 900);
+    
+    // Create some sparkle confetti
+    createSparkles();
+  }
+
+  toonifyBtn?.addEventListener('click', handleToonify);
+  toonifyBtn?.addEventListener('touchend', handleToonify, { passive: false });
+
+  function createSparkles() {
+    const sparkles = ['✨', '⭐', '💫', '🌟'];
+    
+    for (let i = 0; i < 20; i++) {
+      setTimeout(() => {
+        const sparkle = document.createElement('div');
+        sparkle.textContent = sparkles[Math.floor(Math.random() * sparkles.length)];
+        sparkle.style.position = 'fixed';
+        sparkle.style.left = `${Math.random() * 100}%`;
+        sparkle.style.top = `${Math.random() * 100}%`;
+        sparkle.style.fontSize = `${Math.random() * 20 + 15}px`;
+        sparkle.style.opacity = '1';
+        sparkle.style.pointerEvents = 'none';
+        sparkle.style.zIndex = '1000';
+        sparkle.style.animation = 'sparkle 1s ease-out forwards';
+        
+        document.body.appendChild(sparkle);
+        
+        setTimeout(() => {
+          sparkle.remove();
+        }, 1000);
+      }, i * 50);
+    }
+  }
+
+  // Add sparkle animation
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes sparkle {
+      0% {
+        transform: scale(0) rotate(0deg);
+        opacity: 1;
+      }
+      50% {
+        transform: scale(1.2) rotate(180deg);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(0) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  `;
+  document.head.appendChild(style);
+</script>
