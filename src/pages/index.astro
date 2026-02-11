@@ -457,8 +457,11 @@ import Layout from '../layouts/Layout.astro';
 
   // Function to move the No button
   function moveNoButton(e: Event) {
-    e.preventDefault();
     noPresses++;
+
+    // Disable yes button for 100ms to prevent accidental press
+    //yesBtn.disabled = true;
+    //setTimeout(function(){yesBtn.disabled = false;},500);
 
     // Make Yes button bigger
     const currentScale = 1 + (noPresses * 0.2);
@@ -506,8 +509,8 @@ import Layout from '../layouts/Layout.astro';
   }
 
   // No button - gets harder to click (works on both click and touch)
-  noBtn.addEventListener('click', moveNoButton);
-  noBtn.addEventListener('touchstart', moveNoButton, { passive: false });
+  noBtn.addEventListener('pointerdown', moveNoButton);
+  noBtn.addEventListener('pointerdown', moveNoButton, { passive: true });
 
   // Make No button move away when hovering/touching near it (on mobile)
   let hoverTimeout: number;
